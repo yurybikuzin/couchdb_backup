@@ -89,28 +89,34 @@ loki: “http://syslog-west.example.com:3100/loki/api/v1/push”
 9. повторить шаги “5-8” для следующих chunk до тех пока не будут выгружены все документы из базы;
 10. повторить шаги “3-9” для следующих баз данных для текущего запуска;
 
-Эталонная релизация имеется на bash. 
+## Эталонная реализация
+
+[Эталонная релизация имеется на bash](https://github.com/yurybikuzin/couchdb_backup/blob/main/src/sh/couchdb_backup.sh) 
+
 Она включает в себя резервное копирование базы и востановление базы. 
-При реализация скрипта на Rust при возникновении вопросов следует руководствоваться примеров на bash. 
+
+При реализация скрипта на Rust при возникновении вопросов следует руководствоваться примером на bash. 
 
 ## Требования к переносу на Lambda
 
-1. Скрипт должен устанавливаться в облако Amazon через CloudFormation.
-2. Права скрипта должны задаваться через “AWS::Lambda::Permission” https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html
+1. Скрипт должен устанавливаться в облако Amazon через [CloudFormation](https://aws.amazon.com/ru/cloudformation/): [Building Rust Lambda functions with Cargo Lambda](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/building-rust.html).
+2. Права скрипта должны задаваться через [AWS::Lambda::Permission](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-resource-lambda-permission.html)
 3. Конфиг файл скрипта должен передаваться через yaml файл CloudFormation.
 
 ## Требования к логированию
 
 При запуске на компьютере сотрудника или на сервере в Amazon достаточно вывода в консоль или journald.
 
-При запуске как Lambda необходимо логи отправлять на Loki сервер. Допускается использование OpenTelemtry, если исполнитель имеет его опыт эксплуатации. Использование OpenTelementry необходимо согласовать перед реализацией.
+При запуске как Lambda необходимо логи отправлять на [Loki сервер](https://github.com/grafana/loki). 
+
+Допускается использование [OpenTelemtry](https://opentelemetry.io/), если исполнитель имеет его опыт эксплуатации. Использование [OpenTelemtry](https://opentelemetry.io/) необходимо согласовать перед реализацией.
 
 Допускается поначалу работа без логов при запуске как Lambda. В конце логи должны быть.
 
 ## Прочие требования
 
-Скрипт должен компилироваться на операционных системах Fedora 38 (обазательно), CentOS 8 (желательно).
+Скрипт должен компилироваться на операционных системах [Fedora 38](https://alt.fedoraproject.org/cloud/) (обязательно), [CentOS 8](https://aws.amazon.com/marketplace/pp/prodview-tlabscjpjaocy) (желательно).
 
 Целевая система для запуска на сервере Amazon, aarch.
 
-Программа должна работать с среде IPv6 only и dualtack (IPv6/IPv4).
+Программа должна работать в среде [IPv6 only](https://aws.amazon.com/ru/blogs/networking-and-content-delivery/introducing-ipv6-only-subnets-and-ec2-instances/) и [dualstack (IPv6/IPv4)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/dual-stack-endpoints.html).
