@@ -66,9 +66,9 @@ loki: “http://syslog-west.example.com:3100/loki/api/v1/push”
 
 Параметр `delay` в задании резерного копирования определяет задержку в секундах между копированием баз данных.
 
-Параметр `chunk' определяет сколько документов может быть выгружено из баз за один запрос резервного копирования. Если парметр не указан, то выгружать нужно все документы за один запрос.
+Параметр `chunk` определяет сколько документов может быть выгружено из баз за один запрос резервного копирования. Если парметр не указан, то выгружать нужно все документы за один запрос.
 
-Параметр `backup_only_previus` определят копировать базы дольки за предудущий месяц. Базы за предудщий месяц имеют в конце своего названия цифры в форме “-годмесяц”, например “-202311”.
+Параметр `backup_only_previus` определят копировать базы только за предыдущий месяц. Базы за предыдущий месяц имеют в конце своего названия цифры в форме “-годмесяц”, например “-202311”.
 
 Параметр `loki` опеределят по какому адресу нужно отправлять логи работы скрипта. В случае использвания OpenTelementry название параметра можно изменить.
 
@@ -120,3 +120,73 @@ loki: “http://syslog-west.example.com:3100/loki/api/v1/push”
 Целевая система для запуска на сервере Amazon, aarch.
 
 Программа должна работать в среде [IPv6 only](https://aws.amazon.com/ru/blogs/networking-and-content-delivery/introducing-ipv6-only-subnets-and-ec2-instances/) и [dualstack (IPv6/IPv4)](https://docs.aws.amazon.com/AmazonS3/latest/userguide/dual-stack-endpoints.html).
+
+
+## Prerequisites
+
+[Using the AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/using-sam-cli.html)
+
+For Ubuntu 22
+
+### [Zig](https://github.com/ziglang/zig/wiki/Install-Zig-from-a-Package-Manager)
+
+```
+sudo snap install zig --classic --beta
+
+```
+
+### [Cargo lambda](https://www.cargo-lambda.info/guide/installation.html)
+
+```
+cargo install --locked cargo-lambda
+```
+
+## Building and testing Rust Lambda functions requires [installing Docker](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-docker.html). [Alternative](https://www.digitalocean.com/community/tutorials/how-to-install-and-use-docker-on-ubuntu-22-04)
+
+### [Installing the AWS SAM CLI](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html)
+
+### [AWS SAM prerequisites](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/prerequisites.html)
+
+[Step 2: Create an IAM user account](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-central-1#/users)
+
+[Step 3: Create an access key ID and secret access key](https://us-east-1.console.aws.amazon.com/iamv2/home?region=eu-central-1#/users/details/42/create-access-key)
+
+[Step 4: Install the AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html)
+
+### [Installing the AWS SAM CLI]https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/install-sam-cli.html
+
+```
+export SAM_CLI_BETA_RUST_CARGO_LAMBDA=1
+```
+
+in `src/rust` create `samconfig.toml`:
+
+```toml
+[default.build.parameters]
+beta_features = true
+[default.sync.parameters]
+beta_features = true
+```
+
+[Rust-Based AWS Lambda With AWS CDK Deployment](https://medium.com/techhappily/rust-based-aws-lambda-with-aws-cdk-deployment-14a9a8652d62)
+
+
+
+```
+Commands you can use next
+=========================
+[*] Create pipeline: cd sam-app-schedule && sam pipeline init --bootstrap
+[*] Validate SAM template: cd sam-app-schedule && sam validate
+[*] Test Function in the Cloud: cd sam-app-schedule && sam sync --stack-name {stack-name} --watch
+```
+
+[Workaround](https://stackoverflow.com/questions/50791354/running-aws-sam-projects-locally-get-error/52252629#52252629) for
+
+```
+$ sam local invoke
+Error: Running AWS SAM projects locally requires Docker. Have you got it installed and running?
+```
+
+```
+sam sync --stack-name rust --watch
+```

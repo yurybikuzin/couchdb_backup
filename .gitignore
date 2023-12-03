@@ -1,0 +1,6 @@
+~*
+.secret
+*.zip
+/aws/
+/sam-installation/
+target
