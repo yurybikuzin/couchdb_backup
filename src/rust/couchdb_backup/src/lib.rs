@@ -128,12 +128,11 @@ pub async fn run(mode: Mode) -> Result<()> {
                     let prefix = settings!(prefix).clone();
                     let suffix = settings!(suffix).clone();
                     let now = chrono::Utc::now();
-                    let now_tz = now.with_timezone(&chrono_tz::US::Pacific);
 
                     use chrono::Datelike;
-                    let day = now_tz.day();
-                    let month = now_tz.month();
-                    let year = now_tz.year();
+                    let day = now.day();
+                    let month = now.month();
+                    let year = now.year();
 
                     async move {
                         let mut chunk_id = 0;

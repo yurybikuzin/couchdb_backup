@@ -1,6 +1,8 @@
 [package]
 name = "couchdb_backup"
-version = "0.1.0"
+version = "0.1.1"
+# 0.1.1 - removed support of timezone
+# 0.1.0 - initial version: implemented https://github.com/yurybikuzin/couchdb_backup#%D1%82%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-%D1%80%D0%B5%D0%B0%D0%BB%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D0%B8 and https://github.com/yurybikuzin/couchdb_backup#%D1%82%D1%80%D0%B5%D0%B1%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D1%8F-%D0%BA-%D0%BA%D0%BE%D0%BD%D1%84%D0%B8%D0%B3-%D1%84%D0%B0%D0%B9%D0%BB%D1%83-%D1%83%D1%82%D0%B8%D0%BB%D0%B8%D1%82%D1%8B
 edition = "2021"
 
 # Starting in Rust 1.62 you can use `cargo add` to add dependencies 
@@ -37,5 +39,4 @@ serde_json = "1"
 flate2 = "1"
 s3_bucket = { path = "../s3_bucket" }
 chrono = "0.4"
-chrono-tz = "0.8"
 
