@@ -438,7 +438,7 @@ macro_rules! get_base_dir_and_args(
             )?;
             if !$args.no_show_opts {
                 println!(
-                    "config from {:?}:\n{:#?}",
+                    "config is loaded from {:?}",
                     if config_path.is_absolute() {
                         config_path
                     } else if let Ok(current_dir) = std::env::current_dir() {
@@ -446,7 +446,6 @@ macro_rules! get_base_dir_and_args(
                     } else {
                         config_path
                     },
-                    (*SETTINGS.read().unwrap()).as_ref().unwrap().content
                 );
                 println!("args: {:#?}", $args);
             }

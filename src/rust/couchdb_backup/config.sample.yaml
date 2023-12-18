@@ -1,25 +1,26 @@
 database:
-  url: “http://[2345::6]:5984
-  login: “backup”
-  password: “secret”
+  url: "http://[2345::6]:5984"
+  login: "backup"
+  password: "secret"
 task:
   weekly:
-    cron: “Sat *-*-1..7 18:00:00”
+    cron: "Sat *-*-1..7 18:00:00"
     databases:
-    - “account%2F[0-9a-f]{2}%2F[0-9a-f]{2}%2F[0-9a-f]{16}”
-    - “system_config”
-    - “media”
+    - ^account\/[0-9a-f]{2}\/[0-9a-f]{2}\/[0-9a-f]{28}$
+    - "^account/[0-9a-f]{2}/[0-9a-f]{2}/[0-9a-f]{28}$"
+    - "system_config"
+    - "media"
     delay: 600
   monthly:
-    cron: “Sat *-*-1..7 18:00:00”
+    cron: "Sat *-*-1..7 18:00:00"
     databases:
-    - “account%2F[0-9a-f]{2}%2F[0-9a-f]{2}%2F[0-9a-f]{16}-[0-9]{6}”
+    - "account%2F[0-9a-f]{2}%2F[0-9a-f]{2}%2F[0-9a-f]{16}-[0-9]{6}"
     delay: 600
     chunk: 1000
     backup_only_previus: true
-bucket: “s3://data.example.com/folder”
-token: “XXXXXXXXX”
-secret: “YYYYYYYYYY”
-prefix: “backup/ippbx”
-suffix: “couchdb”
-loki: “http://syslog-west.example.com:3100/loki/api/v1/push”
+bucket: "s3://data.example.com/folder"
+token: "XXXXXXXXX"
+secret: "YYYYYYYYYY"
+prefix: "backup/ippbx"
+suffix: "couchdb"
+loki: "http://syslog-west.example.com:3100/loki/api/v1/push"
